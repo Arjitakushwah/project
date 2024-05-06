@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <h1>Monthly Creator Report</h1>
+    {% if creator.flagged %}
+    <div>
+      Your Creator's Accound has been Flagged(blocked) by the Admin.
+      Please Contact us for support.
+    </div>
+    {% else %}
+    <div>
+    <p>Hello,{{ creator.user.name }}</p>
+    <p><strong>Creator Name:</strong> {{ creator.name }}</p>
+    <p><strong>Bio:</strong> {{ creator.bio }}</p>
+    <p><strong>Total Songs:</strong> {{ total_songs }}</p>
+    <p><strong>Total Albums:</strong> {{ total_albums }}</p>
+    <p><strong>Average rating:</strong> {{ rating }}</p>
+
+    <div class="section-header">
+      List of Songs 
+    </div>
+    {% if creator.songs %}
+      <ul>
+        {% for song in creator.songs %}
+        <li class="song-item">
+          <strong>{{ song.name }}</strong> - {{ song.artist }}
+          <br />
+          Released on: {{ song.date_created.strftime('%B %d, %Y') }}
+          <br />
+          Rating: {{song_rating(song.id)}}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No songs created yet.</p>
+      {% endif %}
+    
+    <div class="section-header">
+      List of Albums 
+    </div>
+    {% if creator.albums %}
+      <ul>
+        {% for album in creator.albums %}
+        <li class="album-item">
+          <strong>{{ album.title }}</strong>
+          <br />
+          Released on: {{ album.release_date.strftime('%B %d, %Y') }}
+          <br />
+          Rating: {{ album_rating(album.id) }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No Album created yet.</p>
+      {% endif %}
+    </div>
+    {% endif %}
+  </body>
+</html>
+
